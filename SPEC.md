@@ -7,8 +7,8 @@ subjects, and the policies that admitted them (TR-CORE-03, INT-10, PROF-02). Eve
 and writes it, so it moves memory between Lite, Standard and Scale, between deployments and
 between embedding models.
 
-Conformance vectors: [`memory-format/vectors/`](../memory-format/vectors/). The data model behind
-it: [logical schema v2](schema.md).
+Conformance vectors: [`memory-format/vectors/`](vectors/). The data model behind
+it: [logical schema v2](https://github.com/memhousehq/memhouse/blob/main/docs/schema.md).
 
 ```bash
 memhouse export -o acme.jsonl                    # the configured tenant
@@ -37,7 +37,7 @@ naming a `memory_id` comes after that record. Writers use the order above.
 |---|---|---|
 | `format` | `"memhouse.memory"` | required |
 | `version` | `2` | the format version; a reader refuses a version it doesn't know |
-| `schema_version` | integer | the [logical schema](schema.md) version of the writer |
+| `schema_version` | integer | the [logical schema](https://github.com/memhousehq/memhouse/blob/main/docs/schema.md) version of the writer |
 | `producer` | text | e.g. `memhouse 2.0.0` |
 | `exported_at` | RFC 3339 | |
 | `tenant` | text | the tenant exported |
@@ -143,13 +143,13 @@ Readers accept any valid JSON for a line; only writers are bound to the canonica
 
 Files written before schema v2 have the header `{"format":"memhouse.memory","version":1,
 "exported_at":…,"embedder":"<id>"}` and one serialized record per line, without `type`. They are
-read and upgraded with the [v1 rules](schema.md#upgrading-from-v1): provenance from `source`, the
+read and upgraded with the [v1 rules](https://github.com/memhousehq/memhouse/blob/main/docs/schema.md#upgrading-from-v1): provenance from `source`, the
 policy `legacy-v1`, `content_hash` computed, `superseded_by` taken from the record in the file
 that supersedes it, `updated_at` set to `created_at`.
 
 ## Conformance
 
-[`memory-format/vectors/manifest.json`](../memory-format/vectors/manifest.json) lists each vector
+[`memory-format/vectors/manifest.json`](vectors/manifest.json) lists each vector
 and the expected outcome: the counts for valid files, and a phrase the error must contain for
 invalid ones. A conforming reader reads every valid file with those counts and rejects every
 invalid one. A conforming writer reproduces every line of `v2-full.jsonl` after importing it.

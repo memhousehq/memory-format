@@ -1,22 +1,18 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
-# MemHouse Memory Format: conformance vectors
+# MemHouse Memory Format
 
-The specification is [docs/memory-format.md](../docs/memory-format.md). This directory holds the
-test vectors any reader or writer of the format can check itself against. It is kept apart from
-the code so it can move to a repository of its own (RP-06).
+An open, line-delimited format for everything an AI-agent memory system remembers: records with
+their versions, provenance, labels and scopes, structured forms, code references, links between
+subjects, and the policies that admitted them. [MemHouse](https://github.com/memhousehq/memhouse)
+reads and writes it, and so can anything else.
 
-| File | What it tests |
-|---|---|
-| `vectors/v2-minimal.jsonl` | the smallest valid file |
-| `vectors/v2-full.jsonl` | every kind and state, provenance, scope, labels, a version chain, a second vector, a structured record, code references, links and a policy |
-| `vectors/v1-export.jsonl` | a version 1 file, read and upgraded |
-| `vectors/invalid-*.jsonl` | one broken rule each |
-| `vectors/manifest.json` | the expected outcome of every file |
+- **Specification:** [SPEC.md](SPEC.md) (version 2), CC BY 4.0 ([LICENSE-SPEC](LICENSE-SPEC)).
+- **Conformance vectors:** [`vectors/`](vectors/), Apache-2.0 ([LICENSE](LICENSE)), with the
+  expected outcome of every file in [`vectors/manifest.json`](vectors/manifest.json).
 
-A reader conforms when it reads every valid file with the counts in the manifest and rejects
-every invalid one with an error that names the rule. A writer conforms when importing
-`v2-full.jsonl` and exporting again reproduces every line after the header byte for byte.
+A reader conforms when it reads every valid file with the counts in the manifest and rejects every
+invalid one with an error naming the rule. A writer conforms when importing `v2-full.jsonl` and
+exporting again reproduces every line after the header byte for byte.
 
-In this repository, `cargo test -p memhouse-core conformance_vectors` checks the reader, and the
-governance check `format_roundtrip` (`memhouse bench run --suite governance`) checks the writer
-against a real database.
+This repository's history is the history of `memory-format/` and `docs/memory-format.md` in the
+MemHouse monorepo, where the format is developed and tested; changes land there first.
