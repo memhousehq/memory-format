@@ -1,0 +1,72 @@
+# SPDX-License-Identifier: Apache-2.0
+# Checks on every push to main and every pull request, forks included.
+# Fork-safe by construction: `pull_request` (never `pull_request_target`), a read-only token, no
+# secrets, credentials never persisted in the checkout. Actions are pinned to commit SHAs;
+# Dependabot updates them.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  conformance:
+    name: conformance
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: DCO sign-off on every commit of the pull request
+        if: github.event_name == 'pull_request'
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          missing=""
+          for c in $(git rev-list --no-merges "$BASE..$HEAD"); do
+            git log -1 --format=%B "$c" | grep -q '^Signed-off-by: ' || missing="$missing $c"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::commits without a Signed-off-by line:$missing"
+            exit 1
+          fi
+      - name: every vector is in the manifest and every manifest case has a file
+        run: |
+          python3 - <<'EOF'
+          import json, pathlib, sys
+          d = pathlib.Path("vectors")
+          listed = {c["file"] for c in json.loads((d / "manifest.json").read_text())["cases"]}
+          present = {p.name for p in d.glob("*.jsonl")}
+          for name in sorted(present - listed): print(f"::error::vectors/{name} is not in the manifest")
+          for name in sorted(listed - present): print(f"::error::the manifest lists vectors/{name}, which does not exist")
+          sys.exit(1 if listed != present else 0)
+          EOF
+      # The reference reader: MemHouse's format module reads every vector and must give the
+      # outcome the manifest states (counts, canonical lines, or the named error).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: memhousehq/memhouse
+          path: memhouse
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+        with:
+          toolchain: stable
+      - name: reference reader on these vectors
+        run: |
+          rm -rf memhouse/memory-format/vectors
+          cp -R vectors memhouse/memory-format/vectors
+          cd memhouse && cargo test --locked -p memhouse-core --lib format::

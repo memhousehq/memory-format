@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+# Weekly updates of the pinned actions. Security updates come as soon as an advisory is published
+# (enabled in the repository's settings).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
