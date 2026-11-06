@@ -9,6 +9,7 @@ reads and writes it, and so can anything else.
 - **Specification:** [SPEC.md](SPEC.md) (version 2), CC BY 4.0 ([LICENSE-SPEC](LICENSE-SPEC)).
 - **Conformance vectors:** [`vectors/`](vectors/), Apache-2.0 ([LICENSE](LICENSE)), with the
   expected outcome of every file in [`vectors/manifest.json`](vectors/manifest.json).
+- **Roadmap:** [ROADMAP.md](ROADMAP.md): the format's versions and the MemHouse goals that touch it.
 
 A reader conforms when it reads every valid file with the counts in the manifest and rejects every
 invalid one with an error naming the rule. A writer conforms when importing `v2-full.jsonl` and
