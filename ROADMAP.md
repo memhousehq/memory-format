@@ -14,7 +14,7 @@ tested there; changes land there first and are then brought here.
 | Version | State | Since |
 |---|---|---|
 | 1 | superseded; still readable ([SPEC.md § Version 1](SPEC.md#version-1)) | — |
-| 2 | **current**: records, versions, provenance, labels, scopes, links, policies and decision values; 14 conformance vectors | G04 (2 November 2026) |
+| 2 | **current**: records, versions, provenance, labels, scopes, links, policies and decision values; 15 conformance vectors. From schema 7 (G11): the `taxonomic` kind, and the scope as part of the content hash | G04 (2 November 2026) |
 
 ## Goals that touch the format
 
@@ -23,6 +23,7 @@ tested there; changes land there first and are then brought here.
 | G04 — Logical schema v2 and Memory Format v2 | Memory Format v2 and its conformance vectors | done (2 November 2026) |
 | G09 — Open-source publication | this repository split out of the monorepo with its history | done (3 November 2026) |
 | — | CI: manifest coverage and conformance against the reference reader (#1) | done (5 November 2026) |
+| G11 — Memory types, scopes and promotion | still v2: the `taxonomic` kind and the scope in the content hash (both from schema 7); one new vector, `v2-memory-types.jsonl` | done (13 November 2026) |
 | G16 — Lite profile: embedded store | a second implementation that must read and write the format | planned |
 | G17 — Profile migration | migration goes through export and import; "Done when" is a round trip identical by record hashes | planned |
 | G23 — Context-provider plugin system, connectors and importers | importers from other systems map onto the format | planned |
