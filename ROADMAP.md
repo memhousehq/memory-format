@@ -25,7 +25,7 @@ tested there; changes land there first and are then brought here.
 | — | CI: manifest coverage and conformance against the reference reader (#1) | done (5 November 2026) |
 | G11 — Memory types, scopes and promotion | still v2: the `taxonomic` kind and the scope in the content hash (both from schema 7); one new vector, `v2-memory-types.jsonl` | done (13 November 2026) |
 | G36 — Language packs | still v2: the optional `language` field of a record (from schema 9); one new vector, `v2-language.jsonl` | done (14 November 2026) |
-| — | the rule for additions within a version ([SPEC.md § Additions within a version](SPEC.md#additions-within-a-version)): a reader refuses a newer schema at the header; two new vectors, `invalid-newer-schema.jsonl` and `invalid-header-without-schema.jsonl` | in review (memhousehq/memhouse#28) |
+| — | the rule for additions within a version ([SPEC.md § Additions within a version](SPEC.md#additions-within-a-version)): a reader refuses a newer schema at the header; two new vectors, `invalid-newer-schema.jsonl` and `invalid-header-without-schema.jsonl` | done (20 November 2026) |
 | G16 — Lite profile: embedded store | a second implementation that must read and write the format | planned |
 | G17 — Profile migration | migration goes through export and import; "Done when" is a round trip identical by record hashes | planned |
 | G23 — Context-provider plugin system, connectors and importers | importers from other systems map onto the format | planned |
