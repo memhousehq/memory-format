@@ -14,7 +14,7 @@ tested there; changes land there first and are then brought here.
 | Version | State | Since |
 |---|---|---|
 | 1 | superseded; still readable ([SPEC.md § Version 1](SPEC.md#version-1)) | — |
-| 2 | **current**: records, versions, provenance, labels, scopes, links, policies and decision values; 15 conformance vectors. From schema 7 (G11): the `taxonomic` kind, and the scope as part of the content hash | G04 (2 November 2026) |
+| 2 | **current**: records, versions, provenance, labels, scopes, links, policies and decision values; 18 conformance vectors. From schema 7 (G11): the `taxonomic` kind, and the scope as part of the content hash. From schema 9 (G36): the optional `language` field of a record | G04 (2 November 2026) |
 
 ## Goals that touch the format
 
@@ -24,10 +24,13 @@ tested there; changes land there first and are then brought here.
 | G09 — Open-source publication | this repository split out of the monorepo with its history | done (3 November 2026) |
 | — | CI: manifest coverage and conformance against the reference reader (#1) | done (5 November 2026) |
 | G11 — Memory types, scopes and promotion | still v2: the `taxonomic` kind and the scope in the content hash (both from schema 7); one new vector, `v2-memory-types.jsonl` | done (13 November 2026) |
+| G36 — Language packs | still v2: the optional `language` field of a record (from schema 9); one new vector, `v2-language.jsonl` | done (14 November 2026) |
+| — | the rule for additions within a version ([SPEC.md § Additions within a version](SPEC.md#additions-within-a-version)): a reader refuses a newer schema at the header; two new vectors, `invalid-newer-schema.jsonl` and `invalid-header-without-schema.jsonl` | done (20 November 2026) |
 | G16 — Lite profile: embedded store | a second implementation that must read and write the format | planned |
 | G17 — Profile migration | migration goes through export and import; "Done when" is a round trip identical by record hashes | planned |
 | G23 — Context-provider plugin system, connectors and importers | importers from other systems map onto the format | planned |
 | G28 — Access Policy Decision Register | export and import of access-policy decisions (v2 already carries decision values) | planned |
 
-A goal that changes the format bumps its version in [SPEC.md](SPEC.md), adds conformance vectors
-for the change and keeps every earlier version readable.
+A goal that changes the format bumps its version in [SPEC.md](SPEC.md) or, for an addition
+within a version, comes with a new schema version; it adds conformance vectors for the change and
+keeps every earlier version and schema readable.
